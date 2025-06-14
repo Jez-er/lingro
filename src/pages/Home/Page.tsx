@@ -1,4 +1,3 @@
-import reactLogo from '@/assets/react.svg'
 import './style.css'
 import HomeCounter from './widgets/counter'
 import astralLogo from '/astral.svg'
@@ -13,9 +12,6 @@ function HomePage() {
 				</a>
 				<a href='/' target='_blank'>
 					<img src={astralLogo} className='logo astral' alt='React logo' />
-				</a>
-				<a href='https://react.dev' target='_blank'>
-					<img src={reactLogo} className='logo react' alt='React logo' />
 				</a>
 			</div>
 			<h1>Vite + Astral + React</h1>
