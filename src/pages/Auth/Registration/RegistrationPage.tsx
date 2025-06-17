@@ -47,7 +47,7 @@ const RegistrationPage = () => {
 	const { errors } = formState
 
 	return (
-		<>
+		<div>
 			<AuthLogo />
 			<main>
 				<div className='bg-black p-5 rounded-2xl flex flex-col items-center w-auto border border-blue-50/30 z-5 relative'>
@@ -124,7 +124,7 @@ const RegistrationPage = () => {
 					</form>
 				</div>
 			</main>
-		</>
+		</div>
 	)
 }
 

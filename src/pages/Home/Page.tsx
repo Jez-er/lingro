@@ -1,4 +1,3 @@
-import './style.css'
 import HomeCounter from './widgets/counter'
 import astralLogo from '/astral.svg'
 import viteLogo from '/vite.svg'
