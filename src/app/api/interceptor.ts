@@ -1,7 +1,10 @@
 import axios, { type CreateAxiosDefaults } from 'axios'
+import { postRefresh } from '../../services/auth/requests/refresh'
+import $PAGES from '../routes/pages.config'
+import { errorCatch } from './error'
 
 const options: CreateAxiosDefaults = {
-	baseURL: process.env.VITE_SERVER_URL,
+	baseURL: import.meta.env.VITE_SERVER_URL,
 	headers: {
 		'Content-Type': 'application/json',
 	},
@@ -10,15 +13,40 @@ const options: CreateAxiosDefaults = {
 
 const $api = axios.create(options)
 
-// You can use interceptors to modify requests and responses
-$api.interceptors.request.use(
-	config => {
-		// You can modify the request config here
-		return config
-	},
-	error => {
-		// Handle request errors here
-		return Promise.reject(error)
+$api.interceptors.request.use(config => {
+	const accessToken = localStorage.getItem('accessToken')
+
+	if (config?.headers && accessToken)
+		config.headers.Authorization = `Bearer ${accessToken}`
+
+	return config
+})
+
+$api.interceptors.response.use(
+	config => config,
+	async error => {
+		const originalRequest = error.config
+
+		if (
+			(error?.response?.status === 401 ||
+				error?.response?.status === 401 ||
+				errorCatch(error) === 'Unauthorized') &&
+			error.config &&
+			!error.config._isRetry
+		) {
+			originalRequest._isRetry = true
+			try {
+				await postRefresh()
+				return $api.request(originalRequest)
+			} catch (error) {
+				if (errorCatch(error) === 'Unauthorized') {
+					localStorage.removeItem('accessToken')
+					window.location.href = $PAGES.AUTH.LOGIN
+				}
+			}
+		}
+
+		throw error
 	}
 )
 
