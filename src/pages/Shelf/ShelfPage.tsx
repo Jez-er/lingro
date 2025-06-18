@@ -1,12 +1,13 @@
-import { Languages, Plus } from 'lucide-react'
+import { Languages } from 'lucide-react'
 import { useGetVocabularyByUserId } from '../../services/vocabulary/hooks/useGetVocabularyByUserId'
 import { useUserStore } from '../../stores/user.store'
+import CreateVocabulary from './widgets/CreateVocabulary'
 
 const ShelfPage = () => {
 	const user = useUserStore(state => state.user)
-	const { data } = useGetVocabularyByUserId({ userId: user.id })
-
-	console.log(data)
+	const { data, refetch } = useGetVocabularyByUserId({
+		userId: user.id,
+	})
 
 	return (
 		<main className='w-full h-full flex flex-col px-72 pt-10'>
@@ -24,7 +25,7 @@ const ShelfPage = () => {
 					{data?.map((data, index) => (
 						<div
 							key={index}
-							className='w-52 h-24 flex items-center justify-center  bg-neutral-800 text-white px-4 py-2 rounded-md text-center hover:text-accent hover:border border-accent duration-300 transition-all'
+							className='w-52 h-24 flex items-center justify-center  bg-neutral-800 text-white px-4 py-2 rounded-md text-center hover:text-accent hover:border border-accent duration-300 transition-all cursor-pointer'
 						>
 							<div>
 								<h1 className='font-semibold'>{data.name}</h1>
@@ -32,12 +33,7 @@ const ShelfPage = () => {
 							</div>
 						</div>
 					))}
-
-					<button className='bg-transparent border duration-300 transition-all border-neutral-600 text-white w-52 h-24 rounded-md flex items-center justify-center text-center cursor-pointer hover:text-accent hover:border-accent'>
-						<div className='p-3 rounded-full bg-neutral-800'>
-							<Plus />
-						</div>
-					</button>
+					<CreateVocabulary refetch={refetch} />
 				</div>
 			</section>
 		</main>

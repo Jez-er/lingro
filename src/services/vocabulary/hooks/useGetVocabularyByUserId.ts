@@ -9,7 +9,7 @@ export const useGetVocabularyByUserId = (
 	settings?: QuerySettings<typeof getVocabularyByUserId>
 ) => {
 	return useQuery({
-		queryKey: ['GetVocabularyByUserID', params.userId],
+		queryKey: ['GetVocabularyByUserID'],
 		queryFn: () => getVocabularyByUserId({ params, ...settings?.config }),
 		select: data => data.data,
 		...settings?.options,
