@@ -1,7 +1,9 @@
 import { Route, Routes } from 'react-router'
 import AuthLayout from '../../layout/auth.layout'
+import DictionaryLayout from '../../layout/dictionary.layout'
 import LoginPage from '../../pages/Auth/Login/LoginPage'
 import RegistrationPage from '../../pages/Auth/Registration/RegistrationPage'
+import DictionaryPage from '../../pages/Dictionary/DictionaryPage'
 import HomePage from '../../pages/Home/Page'
 import ShelfPage from '../../pages/Shelf/ShelfPage'
 import $PAGES from './pages.config'
@@ -10,13 +12,23 @@ export const AppRoutes = () => {
 	return (
 		<Routes>
 			<Route path={$PAGES.HOME} element={<HomePage />} />
-			// Auth
+
+			{/* Auth */}
 			<Route path={$PAGES.AUTH.index} element={<AuthLayout />}>
-				<Route path={$PAGES.AUTH.LOGIN} element={<LoginPage />} />
-				<Route path={$PAGES.AUTH.REGISTRATION} element={<RegistrationPage />} />
+				<Route path='login' element={<LoginPage />} />
+				<Route path='registration' element={<RegistrationPage />} />
 			</Route>
-			// Shelf
+
+			{/* Shelf */}
 			<Route path={$PAGES.VOCABULARIES.SHELF} element={<ShelfPage />} />
+
+			{/* Dictionary */}
+			<Route
+				path={$PAGES.VOCABULARIES.DICTIONARY}
+				element={<DictionaryLayout />}
+			>
+				<Route path=':lang_code/:vocab_id' element={<DictionaryPage />} />
+			</Route>
 		</Routes>
 	)
 }
