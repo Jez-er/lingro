@@ -22,6 +22,9 @@ const LoginPage = () => {
 
 	const onSubmit = (fields: LoginFields) => {
 		loginFn(fields)
+		setTimeout(() => {
+			path($PAGES.VOCABULARIES.SHELF)
+		}, 500)
 	}
 
 	const { register, handleSubmit, formState } = useForm<LoginFields>({

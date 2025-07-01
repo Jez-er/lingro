@@ -26,7 +26,7 @@ const ShelfPage = () => {
 						dictionary <Languages />
 					</span>
 				</h1>
-				<h2>Choose your preferred dictionary to continue.</h2>
+				<h2 className='flex'>Choose your preferred dictionary to continue.</h2>
 			</section>
 			<section>
 				<div className='flex flex-wrap gap-4 mt-10'>
