@@ -1,8 +1,7 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
-import { useParams } from 'react-router'
 import { toast } from 'sonner'
-import { useAddNewWord } from '../../../../services/words/hooks/useAddNewWord'
+import { useEditWord } from '../../../../services/words/hooks/useEditWord'
 import { useGetWordById } from '../../../../services/words/hooks/useGetWordById'
 import { IWord } from '../../../../types/words'
 import { Button } from '../../../ui/button'
@@ -23,11 +22,10 @@ import WordCard from '../WordCard'
 const EditWord = ({ refetch, word }: { refetch: () => void; word: IWord }) => {
 	const { data } = useGetWordById({ id: word.id })
 	const sheetCloseRef = useRef<HTMLButtonElement>(null)
-	const params = useParams()
-	const AddNewWord = useAddNewWord({
+	const EditWord = useEditWord({
 		options: {
 			onSuccess: () => {
-				toast.success('New word added successfully!')
+				toast.success('Word edded successfully!')
 				sheetCloseRef.current?.click()
 				refetch()
 				reset()
@@ -52,27 +50,34 @@ const EditWord = ({ refetch, word }: { refetch: () => void; word: IWord }) => {
 			.split(',')
 			.map(t => t.trim())
 			.filter(t => t.length > 0)
-		AddNewWord.mutate({
+		EditWord.mutate({
 			params: {
-				vovabularyId: params.vocab_id ? Number(params.vocab_id) : 0,
+				id: word.id,
 				word: formData.word,
 				translation: translationsArray,
 			},
 		})
 	}
 
+	useEffect(() => {
+		if (data) {
+			reset({
+				word: data.word,
+				translation: data.translate.join(', '),
+			})
+		}
+	}, [data, reset])
+
 	return (
 		<Sheet>
 			<SheetTrigger>
-				<div>
-					<WordCard {...word} />
-				</div>
+				<WordCard {...word} />
 			</SheetTrigger>
 			<SheetContent>
 				<SheetHeader>
-					<SheetTitle>Add new word</SheetTitle>
+					<SheetTitle>EditWord</SheetTitle>
 					<SheetDescription>
-						Select the language for which you want to create a dictionary.
+						You can enter the translation separated by commas.
 					</SheetDescription>
 				</SheetHeader>
 
@@ -87,6 +92,11 @@ const EditWord = ({ refetch, word }: { refetch: () => void; word: IWord }) => {
 									defaultValue={data?.word}
 									{...register('word')}
 								/>
+								{errors.word && (
+									<span className='text-red-500'>
+										{errors.word.message || 'This field is required.'}
+									</span>
+								)}
 							</div>
 							<div className='grid gap-3'>
 								<Label>Translation</Label>
@@ -96,12 +106,17 @@ const EditWord = ({ refetch, word }: { refetch: () => void; word: IWord }) => {
 									defaultValue={data?.translate.join(', ')}
 									{...register('translation')}
 								/>
+								{errors.translation && (
+									<span className='text-red-500'>
+										{errors.translation.message || 'This field is required.'}
+									</span>
+								)}
 							</div>
 						</div>
 
 						<SheetFooter className='absolute bottom-1 w-full'>
 							<Button type='submit' className='cursor-pointer'>
-								Add word
+								Save
 							</Button>
 							<SheetClose asChild>
 								<Button

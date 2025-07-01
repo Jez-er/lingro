@@ -64,9 +64,10 @@ const CreateNewWord = ({ refetch }: { refetch: () => void }) => {
 		<Sheet>
 			<SheetTrigger>
 				<Button
+					asChild
+					asEllement={'div'}
 					variant={'outline'}
-					className='cursor-pointer'
-					onClick={() => {}}
+					className='cursor-pointer text-white'
 				>
 					<Plus />
 				</Button>
@@ -75,7 +76,7 @@ const CreateNewWord = ({ refetch }: { refetch: () => void }) => {
 				<SheetHeader>
 					<SheetTitle>Add new word</SheetTitle>
 					<SheetDescription>
-						Select the language for which you want to create a dictionary.
+						You can enter the translation separated by commas.
 					</SheetDescription>
 				</SheetHeader>
 
@@ -89,6 +90,11 @@ const CreateNewWord = ({ refetch }: { refetch: () => void }) => {
 									placeholder='Word...'
 									{...register('word')}
 								/>
+								{errors.word && (
+									<span className='text-red-500'>
+										{errors.word.message || 'This field is required.'}
+									</span>
+								)}
 							</div>
 							<div className='grid gap-3'>
 								<Label>Translation</Label>
@@ -97,6 +103,11 @@ const CreateNewWord = ({ refetch }: { refetch: () => void }) => {
 									placeholder='Translation...'
 									{...register('translation')}
 								/>
+								{errors.translation && (
+									<span className='text-red-500'>
+										{errors.translation.message || 'This field is required.'}
+									</span>
+								)}
 							</div>
 						</div>
 

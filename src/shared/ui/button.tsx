@@ -39,12 +39,14 @@ function Button({
 	variant,
 	size,
 	asChild = false,
+	asEllement,
 	...props
 }: React.ComponentProps<'button'> &
 	VariantProps<typeof buttonVariants> & {
 		asChild?: boolean
+		asEllement?: React.ElementType
 	}) {
-	const Comp = asChild ? Slot : 'button'
+	const Comp = asChild ? (asEllement ? asEllement : Slot) : 'button'
 
 	return (
 		<Comp

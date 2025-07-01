@@ -8,5 +8,5 @@ export interface getWordByIdParams {
 export type getWordByIdConfig = AxiosRequestConfig<getWordByIdParams>
 
 export const getWordById = ({ config, params }: getWordByIdConfig) => {
-	return $api.get<IWord>(`/lingro/word/word/${params.id}/`, config)
+	return $api.get<IWord>(`/lingro/word/word/${params.id}`, config)
 }
