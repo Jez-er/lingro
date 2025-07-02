@@ -17,10 +17,8 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from '../../../shared/ui/sheet'
-import { useUserStore } from '../../../stores/user.store'
 
 const CreateNewWord = ({ refetch }: { refetch: () => void }) => {
-	const user = useUserStore(state => state.user)
 	const sheetCloseRef = useRef<HTMLButtonElement>(null)
 	const params = useParams()
 	const AddNewWord = useAddNewWord({

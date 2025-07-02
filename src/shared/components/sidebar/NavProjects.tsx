@@ -7,7 +7,6 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-	useSidebar,
 } from '../../ui/sidebar'
 
 export function NavProjects({
@@ -19,8 +18,6 @@ export function NavProjects({
 		icon: LucideIcon
 	}[]
 }) {
-	const { isMobile } = useSidebar()
-
 	return (
 		<SidebarGroup className='group-data-[collapsible=icon]:hidden'>
 			<SidebarGroupLabel>Entries</SidebarGroupLabel>
